@@ -2,18 +2,11 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser')
 const fs = require('fs');
-var http = require('http');
-var https = require('https');
 
 const entitydetector = require('./helpers/entitydetection')
 const skyscanner = require('./helpers/skyscanner')
 const twist = require('./helpers/twist');
 const main = require('./helpers/main')
-
-var privateKey  = fs.readFileSync('server.key', 'utf8');
-var certificate = fs.readFileSync('server.crt', 'utf8');
-
-var credentials = {key: privateKey, cert: certificate};
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -93,12 +86,8 @@ app.get('/flight/:destination/:dateStart/:dateEnd', function (req, res) {
     })
 })
 
-httpServer.listen(3000, function () {
+app.listen(3000, function () {
     console.log('Example app listening on port 3000!')
-    twist.subscribeToComments();
-})
-httpsServer.listen(4000, function () {
-    console.log('Example app listening on port 4000!')
     twist.subscribeToComments();
 })
 

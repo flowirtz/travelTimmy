@@ -43,11 +43,15 @@ app.post('/command', function (req, res) {
 //
 app.get('/flight/:destination/:dateStart', function(req, res) {
     const params = req.params
-    res.send(skyscanner.getFlightSuggestion([params.dateStart], params.destination))
+    skyscanner.getFlightSuggestion([params.dateStart], params.destination, (result) => {
+        res.json(result)
+    })
 })
 app.get('/flight/:destination/:dateStart/:dateEnd', function (req, res) {
     const params = req.params
-    res.send(skyscanner.getFlightSuggestion([params.dateStart, params.dateEnd], params.destination))
+    skyscanner.getFlightSuggestion([params.dateStart, params.dateEnd], params.destination, (result) => {
+        res.json(result)
+    })
 })
 
 app.listen(3000, function () {

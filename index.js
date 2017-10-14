@@ -58,7 +58,7 @@ app.post('/command', function (req, res) {
 })
 
 app.post('/commentadded', function(req, res){
-    var comment = req.body.comment;
+    var comment = req.body;
 
     if(comment.thread_id && comment.thread_id == twist.thread.thread_id && twist.thread.awaitingResponse){
         twist.processResponse(comment.content);

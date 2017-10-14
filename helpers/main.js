@@ -44,7 +44,12 @@ sm = new StateMachine({
             twist.postComment(138431, texter.doYouWantToFlyBack())
         },
         onFromDateToDate: () => {
-            skycanner.getFlightSuggestion([startDate, endDate], destination, function(result) {
+            skycanner.getFlightSuggestion([startDate, endDate], destination, function(result, error) {
+                if(error) {
+                    console.log(error)
+                    twist.postComment(138431, "I could not find any flights.")
+                    return sm.cancel()
+                }
                 twist.postComment(138431, texter.hereIsOurOffer(result))
             })
         },
@@ -52,12 +57,22 @@ sm = new StateMachine({
             twist.postComment(138431, texter.whenDoYouWantToFlyBack())
         },
         onFlyBackOnDate: () => {
-            skycanner.getFlightSuggestion([startDate, endDate], destination, function (result) {
+            skycanner.getFlightSuggestion([startDate, endDate], destination, function (result, error) {
+                if (error) {
+                    console.log(error)
+                    twist.postComment(138431, "I could not find any flights.")
+                    return sm.cancel()
+                }
                 twist.postComment(138431, texter.hereIsOurOffer(result))
             })
         },
         onNoReturn: () => {
-            skycanner.getFlightSuggestion([startDate, endDate], destination, function (result) {
+            skycanner.getFlightSuggestion([startDate, endDate], destination, function (result, error) {
+                if (error) {
+                    console.log(error)
+                    twist.postComment(138431, "I could not find any flights.")
+                    return sm.cancel()
+                }
                 twist.postComment(138431, texter.noReturn(result))
             })
         },
@@ -65,7 +80,12 @@ sm = new StateMachine({
             twist.postComment(138431, texter.cancelled())
         },
         onBook: () => {
-            skycanner.getFlightSuggestion([startDate, endDate], destination, function (result) {
+            skycanner.getFlightSuggestion([startDate, endDate], destination, function (result, error) {
+                if (error) {
+                    console.log(error)
+                    twist.postComment(138431, "I could not find any flights.")
+                    return sm.cancel()
+                }
                 twist.postComment(138431, texter.bookNow(result))
             })
         }

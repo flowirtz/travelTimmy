@@ -15,6 +15,11 @@ Like the flight? Book it instantly via their platform and lean back - Timmy take
 This project was developed during [HackUPC](http://hackupc.com) in Barcelona.
 **It is an MVP, not a ready to use product.**
 
+## Technology
+The bot is written in pure Javascript (Node.js). We wrote the whole chatbot ourselves, using only a Finite State Machine and **no fancy Chatbot API** or helper. We connect to APIs provided by [Skyscanner](https://skyscanner.com) and integrate with [Twist](https://twistapp.com) by doist.
+The bot is hosted in an EC2 instance on AWS, running Node.js behind a NginX proxy that is supported by Let's encrypt.
+The domain for our landing page is provided by Domain.com.
+
 ## Before running
 Install using `npm install`.
 Then export this env var: `export GOOGLE_APPLICATION_CREDENTIALS=~(...)travelTimmy/config/HackUPC2017-24270e308d6f.json`.

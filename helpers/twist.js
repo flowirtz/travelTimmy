@@ -50,9 +50,7 @@ module.exports.subscribeToComments = function(){
 }
 
 module.exports.processResponse = function(comment){
-    // TODO implement (! set awaitingresponse to false at the end)
     main.determineNextState(comment)
-    module.exports.postComment(thread.thread_id, "Thanks for responding");
 }
 
 module.exports.getCommentById = function(comment_id, callback){

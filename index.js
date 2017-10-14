@@ -8,6 +8,7 @@ var https = require('https');
 const entitydetector = require('./helpers/entitydetection')
 const skyscanner = require('./helpers/skyscanner')
 const twist = require('./helpers/twist');
+const main = require('./helpers/main')
 
 var privateKey  = fs.readFileSync('server.key', 'utf8');
 var certificate = fs.readFileSync('server.crt', 'utf8');
@@ -16,11 +17,9 @@ var credentials = {key: privateKey, cert: certificate};
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
+
 // parse application/json
 app.use(bodyParser.json())
-
-var httpServer = http.createServer(app);
-var httpsServer = https.createServer(credentials, app);
 
 app.get('/', function (req, res) {
     console.log('Hello World');
@@ -34,16 +33,28 @@ app.post('/command', function (req, res) {
     var command = req.body.command_argument;
     var thread_id = Number(req.body.thread_id);
 
+    twist.getCommentById(req.body.comment_id, (comment)=>{
+        if(comment.attachments && comment.attachments.length > 0){
+            twist.storeAttachments(comment.attachments);
+        }
+    });
+
     if(command){
         console.log(command);
         if(command.length > 0) {
-            var city = entitydetector.getCity(command)
-
-            if(city){
-
-            }else{
-                twist.postComment(thread_id, 'Without destination I\'m afraid I cannot help you. :(');
-                console.log("No destination specified!")
+            if(command.contains("show me")){
+                twist.showTravelDocuments(res);
+            }else {
+                entitydetector.getCity(command, (cities) => {
+                    if (cities) {
+                        main.sm.flightToDest(cities[0])
+                        res.sendStatus(200)
+                    } else {
+                        twist.postComment(thread_id, 'Without destination I\'m afraid I cannot help you. :(');
+                        res.sendStatus(400)
+                        console.log("No destination specified!")
+                    }
+                })
             }
         }
     }else{
@@ -57,8 +68,10 @@ app.post('/commentadded', function(req, res){
 
     if(comment.thread_id && comment.thread_id == twist.thread.thread_id && twist.thread.awaitingResponse){
         twist.processResponse(comment.content);
+        res.send(200)
     }else{
         console.log("No thread specified for added comment or comment was no response to current thread.")
+        res.send(400)
     }
 })
 

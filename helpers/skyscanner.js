@@ -8,6 +8,7 @@ let startDate, endDate
 //
 
 //usage: getFlightSuggestion(["anytime", "anytime"], "London", callbackFn)
+//date: yyyy-mm-dd
 module.exports.getFlightSuggestion = function(date, destinationCity, callback) {
     startDate = date[0]
     if(date.length === 2) {
@@ -24,6 +25,7 @@ module.exports.getFlightSuggestion = function(date, destinationCity, callback) {
 //beautify the flight trip data to include more than ids
 function _cleanFlightData(data, finalCallback) {
     flight = data["Quotes"][0]
+
     carriers = data["Carriers"]
     places = data["Places"]
 

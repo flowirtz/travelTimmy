@@ -67,7 +67,12 @@ module.exports.getCommentById = function(comment_id, callback){
     request(options, function (error, response, body) {
         if (error) throw new Error(error);
 
-        callback(JSON.parse(body));
+        try {
+            callback(JSON.parse(body));
+        }catch (error){
+            console.log("Error receiving comment fpr id " + comment_id);
+            console.log(body);
+        }
     });
 }
 

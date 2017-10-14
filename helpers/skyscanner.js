@@ -2,7 +2,7 @@ var request = require('request');
 var config = require('../config.json')
 const twist = require('./twist');
 
-let startDate, endDate
+let startDate, endDate, destination
 
 //
 // PUBLIC
@@ -25,7 +25,17 @@ module.exports.getFlightSuggestion = function(date, destinationCity, callback) {
 //
 //beautify the flight trip data to include more than ids
 function _cleanFlightData(data, finalCallback) {
-    flight = data["Quotes"][0]
+    flight = data["Quotes"].find((date) => {
+        if (endDate && !date["InboundLeg"]) {
+            return false
+        }
+        return date["OutboundLeg"]
+    })
+    
+    if(!flight) {
+        //no flight found!
+        return finalCallback(data, "poop")
+    }
 
     carriers = data["Carriers"]
     places = data["Places"]
@@ -65,7 +75,7 @@ function _cleanFlightData(data, finalCallback) {
                                       result.outboundLeg.departureTime.substring(0, 10),
                                       inboundDate)
 
-    finalCallback(result)
+    finalCallback(result, null)
 }
 
 // get a url to book the trip on skyscanner

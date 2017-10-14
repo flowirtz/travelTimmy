@@ -6,6 +6,13 @@ const LanguageServiceClient = require('@google-cloud/language')
 const language = new LanguageServiceClient();
 
 
+// Example call
+/*
+    entitydetector.getCity("I live in London, Rio, New York and my Hotel room", function(result) {
+        res.send(result)
+    })
+*/
+
 module.exports.getCity = function(text, callback){
 
   var  document = {content: text, type: 'PLAIN_TEXT'};

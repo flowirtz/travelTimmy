@@ -32,23 +32,6 @@ module.exports.postComment = function(thread_id, content){
     });
 }
 
-module.exports.subscribeToComments = function(){
-
-    const target_url = "https://bot.traveltimmie.cricket/commentadded";
-
-    var options = { method: 'POST',
-        url: 'https://api.twistapp.com/api/v2/hooks/subscribe',
-        headers:
-            { 'content-type': 'application/x-www-form-urlencoded',
-                authorization: authorization },
-        form: { event: 'comment_added', target_url: target_url } };
-
-    request(options, function (error, response, body) {
-        if (error) throw new Error(error);
-        console.log(body);
-    });
-}
-
 module.exports.processResponse = function(comment){
     main.determineNextState(comment)
 }

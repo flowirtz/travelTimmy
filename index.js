@@ -61,7 +61,7 @@ app.post('/command', function (req, res) {
     }
 })
 
-app.post('/commentadded', function(req, res){
+app.post('/commentadd', function(req, res){
     var comment = req.body;
 
     if(comment.thread_id && comment.thread_id == twist.thread.thread_id && twist.thread.awaitingResponse && comment.creator != 57018){
@@ -90,7 +90,6 @@ app.get('/flight/:destination/:dateStart/:dateEnd', function (req, res) {
 
 app.listen(3000, function () {
     console.log('Example app listening on port 3000!')
-    twist.subscribeToComments();
 })
 
 

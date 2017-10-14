@@ -26,7 +26,7 @@ module.exports.postComment = function(thread_id, content, attachment){
         form: { content: content, thread_id: thread_id} };
 
     if(attachment){
-        options.form['attachment'] = "[" + JSON.stringify(attachment) + "]";
+        options.form['attachments'] = "[" + JSON.stringify(attachment) + "]";
     }
 
     request(options, function (error, response, body) {

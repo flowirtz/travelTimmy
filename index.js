@@ -38,7 +38,7 @@ app.post('/command', function (req, res) {
     if(command){
         console.log(command);
         if(command.length > 0) {
-            if(command.includes("show me")){
+            if(command.toLowerCase().includes("show me")){
                 twist.showTravelDocuments(res);
             } else if(command == 'upload'){
                 return;
@@ -46,7 +46,7 @@ app.post('/command', function (req, res) {
                 entitydetector.getCity(command, (cities) => {
                     if (cities && cities.length > 0) {
                         main.sm.flightToDest(cities[0])
-                        res.sendStatus(200)
+                        //res.sendStatus(200)
                     } else {
                         twist.postComment(thread_id, 'Without destination I\'m afraid I cannot help you. :(');
                         res.sendStatus(400)

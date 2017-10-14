@@ -7,7 +7,7 @@ const main = require('./main')
 const authorization = 'Bearer ' + oauth.oauth.access_token;
 var thread = {
     awaitingResponse: false,
-    thread_id: null,
+    thread_id: 138431,
     travel_documents: []
 };
 
@@ -55,7 +55,7 @@ module.exports.processResponse = function(comment){
 
 module.exports.getCommentById = function(comment_id, callback){
 
-    var options = { method: 'GET',
+    var options = { method: 'POST',
         url: 'https://api.twistapp.com/api/v2/comments/getone',
         headers:
             { 'content-type': 'application/x-www-form-urlencoded',
@@ -68,7 +68,7 @@ module.exports.getCommentById = function(comment_id, callback){
         try {
             callback(JSON.parse(body));
         }catch (error){
-            console.log("Error receiving comment fpr id " + comment_id);
+            console.log("Error receiving comment for id " + comment_id);
             console.log(body);
         }
     });
@@ -76,9 +76,9 @@ module.exports.getCommentById = function(comment_id, callback){
 
 
 module.exports.storeAttachments = function(attachments){
-    thread.travel_documents.push(attachments);
+    thread.travel_documents = thread.travel_documents.concat(attachments);
 
-    module.exports.postComment(thread.thread_id, "Thank you, I have received " + attachment_ids.length + " travel documents! :)");
+    module.exports.postComment(thread.thread_id, "Thank you, I have received " + attachments.length + " travel documents! :)");
 }
 
 module.exports.showTravelDocuments = function (res) {

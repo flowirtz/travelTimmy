@@ -28,6 +28,8 @@ app.post('/command', function (req, res) {
     var thread_id = Number(req.body.thread_id);
 
     twist.getCommentById(req.body.comment_id, (comment)=>{
+        comment = comment.comment;
+
         if(comment.attachments && comment.attachments.length > 0){
             twist.storeAttachments(comment.attachments);
         }
@@ -38,7 +40,9 @@ app.post('/command', function (req, res) {
         if(command.length > 0) {
             if(command.includes("show me")){
                 twist.showTravelDocuments(res);
-            }else {
+            } else if(command == 'upload'){
+                return;
+            } else {
                 entitydetector.getCity(command, (cities) => {
                     if (cities && cities.length > 0) {
                         main.sm.flightToDest(cities[0])

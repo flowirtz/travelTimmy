@@ -13,7 +13,7 @@ var thread = {
 
 module.exports.thread = thread;
 
-module.exports.postComment = function(thread_id, content){
+module.exports.postComment = function(thread_id, content, attachment){
 
     thread.thread_id = thread_id;
     thread.awaitingResponse = true;
@@ -23,7 +23,11 @@ module.exports.postComment = function(thread_id, content){
         headers:
             { 'content-type': 'application/x-www-form-urlencoded',
                 authorization: authorization },
-        form: { content: content, thread_id: thread_id } };
+        form: { content: content, thread_id: thread_id} };
+
+    if(attachment){
+        options.form['attachment'] = "[" + JSON.stringify(attachment) + "]";
+    }
 
     request(options, function (error, response, body) {
         if (error) throw new Error(error);
@@ -66,6 +70,6 @@ module.exports.storeAttachments = function(attachments){
 
 module.exports.showTravelDocuments = function (res) {
     for(var document of thread.travel_documents){
-        module.exports.postComment(thread.thread_id, document.url);
+        module.exports.postComment(thread.thread_id, document.url, document);
     }
 }

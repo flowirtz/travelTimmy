@@ -6,6 +6,8 @@ const entitydetector = require('./helpers/entitydetection')
 const skyscanner = require('./helpers/skyscanner')
 const twist = require('./helpers/twist');
 
+const main = require('./helpers/main')
+
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
 
@@ -26,14 +28,16 @@ app.post('/command', function (req, res) {
 
     if(command){
         if(command.length > 0) {
-            var city = entitydetector.getCity(command)
-
-            if(city){
-
-            }else{
-                twist.postComment(thread_id, 'Without destination I\'m afraid I cannot help you. :(');
-                console.log("No destination specified!")
-            }
+            entitydetector.getCity(command, (cities) => {
+                if (cities) {
+                    main.sm.flightToDest(cities[0])
+                    res.sendStatus(200)
+                } else {
+                    twist.postComment(thread_id, 'Without destination I\'m afraid I cannot help you. :(');
+                    res.sendStatus(400)
+                    console.log("No destination specified!")
+                }
+            })
         }
     }else{
         twist.postComment(thread_id, 'Don\'t hesitate to ask me something!');
@@ -46,8 +50,10 @@ app.post('/commentadded', function(req, res){
 
     if(comment.thread_id && comment.thread_id == twist.thread.thread_id && twist.thread.awaitingResponse){
         twist.processResponse(comment.content);
+        res.send(200)
     }else{
         console.log("No thread specified for added comment or comment was no response to current thread.")
+        res.send(400)
     }
 })
 

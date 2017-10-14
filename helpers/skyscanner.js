@@ -25,6 +25,7 @@ module.exports.getFlightSuggestion = function(date, destinationCity, callback) {
 //beautify the flight trip data to include more than ids
 function _cleanFlightData(data, finalCallback) {
     flight = data["Quotes"][0]
+
     carriers = data["Carriers"]
     places = data["Places"]
 

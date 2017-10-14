@@ -10,10 +10,14 @@ module.exports = {
     whenDoYouWantToFlyBack: function() {
         return "Ok. When?"
     },
-    hereIsOurOffer: function(flight) {
-        return "That's all. Here is your flight: " + flight + "Do you want to book now?"
+    noReturn: function(flight) {
+        return "Alright, no return flight. Here is your flight: " + JSON.stringify(flight) + "Do you want to book now?"
     },
-    bookNow: function(url) {
+    hereIsOurOffer: function(flight) {
+        return "That's all. Here is your flight: " + JSON.stringify(flight) + "Do you want to book now?"
+    },
+    bookNow: function(flight) {
+        url = flight.bookingURL
         return "Great. Here you go: " + url
     },
     cancelled: function() {

@@ -2,6 +2,7 @@ const StateMachine = require("javascript-state-machine")
 const texter = require('./texter')
 const twist = require('./twist');
 const skycanner = require('./skyscanner')
+const chrono = require('chrono-node')
 
 let destination, startDate, endDate
 
@@ -74,15 +75,13 @@ sm = new StateMachine({
 module.exports.determineNextState = function(message) {
     console.log("XXX: CUR STATE IS", this.sm.state)
     switch(this.sm.state) {
-        case "start": //TODO 
+        case "start": //TODO
                       break
-        case "destGiven": res = message.match(/\d{4}-\d{2}-\d{2}/g)
-                          dealWithDate(res)
+        case "destGiven": dealWithDate(chrono.parse(message))
                           break
         case "outboundGiven": wantReturnFlight(message)
                               break
-        case "inboundWanted": res = message.match(/\d{4}-\d{2}-\d{2}/g)
-                              dealWithReturnDate(res)
+        case "inboundWanted": dealWithReturnDate(chrono.parse(message))
                               break
         case "datesGiven": wantToBook(message)
                            break
@@ -91,13 +90,17 @@ module.exports.determineNextState = function(message) {
 
 }
 
+function getDateString(date) {
+  return date.start.date().toISOString().slice(0,10);
+}
+
 function dealWithDate(dates) {
     switch(dates.length) {
         case 0: sm.cancel()
                 break
-        case 1: sm.onDate(dates[0])
+        case 1: sm.onDate(getDateString(dates[0]))
                 break
-        case 2: sm.fromDateToDate(dates[0], dates[1])
+        case 2: sm.fromDateToDate(getDateString(dates[0]), getDateString(dates[1]))
                 break
     }
 }
@@ -116,7 +119,7 @@ function dealWithReturnDate(date) {
     switch (date.length) {
         case 0: sm.cancel()
             break
-        case 1: sm.flyBackOnDate(date[0])
+        case 1: sm.flyBackOnDate(getDateString(date[0]))
             break
     }
 }

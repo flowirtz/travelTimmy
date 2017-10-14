@@ -1,4 +1,13 @@
+// Imports the Google Cloud client library
+const LanguageServiceClient = require('@google-cloud/language')
+  .LanguageServiceClient;
+
+// Creates a client
+const language = new LanguageServiceClient();
+
+
 module.exports.getCity = function(text, callback){
+
   var  document = {content: text, type: 'PLAIN_TEXT'};
 
   language

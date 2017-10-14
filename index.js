@@ -23,6 +23,7 @@ app.use(bodyParser.json())
 
 app.get('/', function (req, res) {
     console.log('Hello World');
+    res.send("Hello, world!");
 })
 
 //

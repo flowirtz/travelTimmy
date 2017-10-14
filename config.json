@@ -1,6 +1,6 @@
 {
     "keys": {
-        "skyscanner-flights": "ha731738434387524676454915828415",
-        "skyscanner-hotels": "b05a6dfdfcd5468a8177dcbd782e9f1a"
+        "skyscanner_flights": "ha731738434387524676454915828415",
+        "skyscanner_hotels": "b05a6dfdfcd5468a8177dcbd782e9f1a"
     }
 }

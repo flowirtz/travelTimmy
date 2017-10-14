@@ -67,9 +67,6 @@ app.post('/commentadded', function(req, res){
     if(comment.thread_id && comment.thread_id == twist.thread.thread_id && twist.thread.awaitingResponse){
         twist.processResponse(comment.content);
         res.send(200)
-    }else{
-        console.log("No thread specified for added comment or comment was no response to current thread.")
-        res.send(400)
     }
 })
 

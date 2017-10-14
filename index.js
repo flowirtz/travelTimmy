@@ -1,10 +1,25 @@
 const express = require('express')
 const app = express()
 
+const entitydetector = require('./helpers/entitydetection')
 const skyscanner = require('./helpers/skyscanner')
 
 app.get('/', function (req, res) {
-    res.send('Hello World!')
+    if(req.command_argument){
+        var command = req.command_argument;
+
+        if(command.length > 0) {
+            var city = entitydetector.getCity(command)
+
+            if(city){
+
+            }else{
+                console.log("No destination specified!")
+            }
+        }
+    }else{
+        console.log('No command recognized!');
+    }
 })
 
 //

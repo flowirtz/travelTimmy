@@ -58,3 +58,7 @@ typings/
 .env
 
 .idea/
+server.key
+server.crt
+host.key
+host.csr

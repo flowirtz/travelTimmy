@@ -1,16 +1,26 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser')
+const fs = require('fs');
+var http = require('http');
+var https = require('https');
 
 const entitydetector = require('./helpers/entitydetection')
 const skyscanner = require('./helpers/skyscanner')
 const twist = require('./helpers/twist');
 
+var privateKey  = fs.readFileSync('server.key', 'utf8');
+var certificate = fs.readFileSync('server.crt', 'utf8');
+
+var credentials = {key: privateKey, cert: certificate};
+
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
-
 // parse application/json
 app.use(bodyParser.json())
+
+var httpServer = http.createServer(app);
+var httpsServer = https.createServer(credentials, app);
 
 app.get('/', function (req, res) {
     console.log('Hello World');
@@ -25,6 +35,7 @@ app.post('/command', function (req, res) {
     var thread_id = Number(req.body.thread_id);
 
     if(command){
+        console.log(command);
         if(command.length > 0) {
             var city = entitydetector.getCity(command)
 
@@ -68,8 +79,12 @@ app.get('/flight/:destination/:dateStart/:dateEnd', function (req, res) {
     })
 })
 
-app.listen(3000, function () {
+httpServer.listen(3000, function () {
     console.log('Example app listening on port 3000!')
+    twist.subscribeToComments();
+})
+httpsServer.listen(4000, function () {
+    console.log('Example app listening on port 4000!')
     twist.subscribeToComments();
 })
 

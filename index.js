@@ -40,7 +40,7 @@ app.post('/command', function (req, res) {
                 twist.showTravelDocuments(res);
             }else {
                 entitydetector.getCity(command, (cities) => {
-                    if (cities) {
+                    if (cities && cities.length > 0) {
                         main.sm.flightToDest(cities[0])
                         res.sendStatus(200)
                     } else {

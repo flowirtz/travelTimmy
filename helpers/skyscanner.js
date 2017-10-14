@@ -1,5 +1,6 @@
 var request = require('request');
 var config = require('../config.json')
+const twist = require('./twist');
 
 let startDate, endDate, destination
 
@@ -107,6 +108,8 @@ function _getFlightQuote(startDate, endDate, destinationId, callback, finalCallb
             //success.
             result = JSON.parse(body)
             callback(result, finalCallback)
+        }else{
+            twist.postComment("Sorry, that doesn't work. " + response.body);
         }
     })
 }

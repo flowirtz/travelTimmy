@@ -127,7 +127,7 @@ function dealWithDate(dates) {
 
 function wantReturnFlight(message) {
     message = message.toUpperCase()
-    if(message==="YES") {
+    if(message.includes("YES")) {
         this.sm.wantReturn()
     }
     else {

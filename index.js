@@ -36,7 +36,7 @@ app.post('/command', function (req, res) {
     if(command){
         console.log(command);
         if(command.length > 0) {
-            if(command.contains("show me")){
+            if(command.includes("show me")){
                 twist.showTravelDocuments(res);
             }else {
                 entitydetector.getCity(command, (cities) => {

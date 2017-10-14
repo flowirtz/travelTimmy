@@ -125,9 +125,13 @@ function _getCorrectCityId(cityName, callback, finalCallback) {
             throw Error("ERROR in skyscanner.getCorrectCityId", error)
         }
         if(response && response.statusCode === 200) {
-            //success. take the first cities id and return
+            //success. take the first cities id and return if cities have been returned
             result = JSON.parse(body)
-            callback(startDate, endDate, result["Places"][0]["PlaceId"], _cleanFlightData, finalCallback)
+            if(result["Places"].length > 0) {
+                callback(startDate, endDate, result["Places"][0]["PlaceId"], _cleanFlightData, finalCallback)
+            }else{
+                twist.postComment(twist.thread.thread_id, "I'm really sorry, but I could find the destination you specified.");
+            }
         }
     })
 }

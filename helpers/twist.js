@@ -66,6 +66,6 @@ module.exports.storeAttachments = function(attachments){
 
 module.exports.showTravelDocuments = function (res) {
     for(var document of thread.travel_documents){
-        res.redirect(document.url);
+        module.exports.postComment(thread.thread_id, document.url);
     }
 }

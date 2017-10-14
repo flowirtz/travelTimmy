@@ -34,7 +34,7 @@ module.exports.postComment = function(thread_id, content){
 
 module.exports.subscribeToComments = function(){
 
-    const target_url = "/commentadded"
+    const target_url = "https://bot.traveltimmie.cricket/commentadded"
 
     var options = { method: 'POST',
         url: 'https://api.twistapp.com/api/v2/hooks/subscribe',

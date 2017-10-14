@@ -5,8 +5,8 @@ var exports = module.exports;
 * OAuth not needed as test token has been provided
  */
 
-oauth = {
-    access_token: 'oauth2:54fd8a5ff7379f4ef1617aa64b1ed5b40ce7bbc7',
+const oauth = {
+    access_token: 'oauth2:6fa20ec14931728b4dca4eaed98a1672aeff84c4',
     access_code: null,
     state: '6495246996',
     client_id: '54fd8a5ff7379f4ef1617aa64b1ed5b40ce7bbc7',

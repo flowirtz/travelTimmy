@@ -70,6 +70,7 @@ module.exports.storeAttachments = function(attachments){
 
 module.exports.showTravelDocuments = function (res) {
     if(thread.travel_documents.length > 0){
-        module.exports.postComment(thread.thread_id, document.url, thread.travel_documents[thread.travel_documents.length - 1]);
+        var document = thread.travel_documents[thread.travel_documents.length - 1]
+        module.exports.postComment(thread.thread_id, document.url, document);
     }
 }
